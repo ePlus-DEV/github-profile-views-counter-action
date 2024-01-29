@@ -1,11 +1,9 @@
 const recordSummaryFile = require('../../helper/cache/summary-cache');
 let markdownTemplate = function () {
     const ACTION_NAME = 'GitHub Profile Views Counter';
-    const ACTION_URL = 'https://github.com/hoangsvit/github-profile-views-counter';
-    const AUTHOR_NAME = 'hoangsvit';
-    const AUTHOR_URL = 'https://github.com/hoangsvit';
-    const BRANCH_NAME = process.env.BRANCH_NAME || 'master';
-
+    const ACTION_URL = 'https://github.com/gayanvoice/github-profile-views-counter';
+    const AUTHOR_NAME = 'gayanvoice';
+    const AUTHOR_URL = 'https://github.com/gayanvoice';
     let getDate = function () {
         let date = new Date();
         let time = date.toLocaleString('en-US', { timeZone: 'UTC', hour: 'numeric', minute: 'numeric', hour12: true })
@@ -34,7 +32,6 @@ let markdownTemplate = function () {
     }
     let createSummaryPageTableComponent = async function (fileName, response, insightsRepository) {
         const branchName = process.env.BRANCH_NAME || 'master';
-        
         let table = `<table>\n`;
         table = table + `\t<tr>\n`;
         table = table + `\t\t<th>\n`;
@@ -50,7 +47,7 @@ let markdownTemplate = function () {
         table = table + `\t\t\tViews\n`;
         table = table + `\t\t</th>\n`;
         table = table + `\t</tr>\n`;
-        for (const repository of response) {         
+        for (const repository of response) {
             let repositoryUrl = `https://github.com/${repository.ownerLogin}/${insightsRepository}`;
             let readmeUrl = `${repositoryUrl}/tree/${branchName}/readme`
             let graphUrl = `${repositoryUrl}/raw/${branchName}/graph`
@@ -75,11 +72,12 @@ let markdownTemplate = function () {
         table = table + `</table>\n\n`;
         return table;
     }
-    let summaryPage = async function (fileName, actionName, actionUrl, authorName, authorUrl, BRANCH_NAME, response, insightsRepository) {
+    let summaryPage = async function (fileName, actionName, actionUrl, authorName, authorUrl, response, insightsRepository) {
+        const branchName = process.env.BRANCH_NAME || 'master';
         let lastUpdate = getDate();
         let tableComponent = await createSummaryPageTableComponent(fileName, response, insightsRepository);
         let repositoryUrl = `https://github.com/${response[0].ownerLogin}/${insightsRepository}`;
-        let svgBadge = `[![Image of ${repositoryUrl}](${repositoryUrl}/blob/${BRANCH_NAME}/svg/profile/badge.svg)](${repositoryUrl})`;
+        let svgBadge = `[![Image of ${repositoryUrl}](${repositoryUrl}/blob/${branchName}/svg/profile/badge.svg)](${repositoryUrl})`;
         let markdown =  `## [🚀 ${actionName}](${actionUrl})\n`;
         markdown = markdown + `**${actionName}** is an opensource project that powered entirely by  \`GitHub Actions\` to fetch and store insights of repositories.\n`;
         markdown = markdown + `It uses \`GitHub API\` to fetch the insight data of your repositories and commits changes into a separate repository.\n\n`
@@ -131,7 +129,8 @@ let markdownTemplate = function () {
         table = table + `</table>\n\n`;
         return table;
     }
-    let repositoryPage = async function (ACTION_NAME, ACTION_URL, AUTHOR_NAME, AUTHOR_URL, branchName, views, file, response, request) {
+    let repositoryPage = async function (ACTION_NAME, ACTION_URL, AUTHOR_NAME, AUTHOR_URL, views, file, response, request) {
+        const branchName = process.env.BRANCH_NAME || 'master';
         let insightsRepositoryUrl = `https://github.com/${response.ownerLogin}/${request.insightsRepository}`;
         let readmeUrl = `${insightsRepositoryUrl}/blob/${branchName}/readme/${response.repositoryId}`;
         let repositoryName = `[${response.repositoryName}](https://github.com/${response.ownerLogin}/${response.repositoryName})`;
@@ -168,13 +167,13 @@ let markdownTemplate = function () {
         return markdown;
     }
     let createSummaryMarkDownTemplateAdvanced = async function (response, repository) {
-        return await summaryPage(`week`, ACTION_NAME, ACTION_URL, AUTHOR_NAME, AUTHOR_URL, BRANCH_NAME,response, repository);
+        return await summaryPage(`week`, ACTION_NAME, ACTION_URL, AUTHOR_NAME, AUTHOR_URL, response, repository);
     }
     let createSummaryMarkDownTemplateBasic = async function (response, repository) {
-        return await summaryPage(`year`, ACTION_NAME, ACTION_URL, AUTHOR_NAME, AUTHOR_URL, BRANCH_NAME,response, repository);
+        return await summaryPage(`year`, ACTION_NAME, ACTION_URL, AUTHOR_NAME, AUTHOR_URL, response, repository);
     }
     let createListMarkDownTemplate = async function (views, file, response, request) {
-        return await repositoryPage(ACTION_NAME, ACTION_URL, AUTHOR_NAME, AUTHOR_URL, BRANCH_NAME,views, file, response, request);
+        return await repositoryPage(ACTION_NAME, ACTION_URL, AUTHOR_NAME, AUTHOR_URL, views, file, response, request);
     }
     return {
         createListMarkDownTemplate: createListMarkDownTemplate,
