@@ -15687,7 +15687,7 @@ module.exports = pullGit;
 const core = __nccwpck_require__(2186);
 const git = __nccwpck_require__(1193);
 let pushGit = function () {
-    const BRANCH = process.env.BRANCH_NAME || master;
+    const BRANCH = process.env.BRANCH_NAME || 'master';
     let push = async function () {
         core.info(`Git Push`);
         try {
@@ -16018,8 +16018,8 @@ let markdownTemplate = function () {
         table = table + `\t</tr>\n`;
         for (const repository of response) {
             let repositoryUrl = `https://github.com/${repository.ownerLogin}/${insightsRepository}`;
-            let readmeUrl = `${repositoryUrl}/tree/master/readme`
-            let graphUrl = `${repositoryUrl}/raw/master/graph`
+            let readmeUrl = `${repositoryUrl}/tree/${BRANCH}/readme`
+            let graphUrl = `${repositoryUrl}/raw/${BRANCH}/graph`
             let summaryCache = await recordSummaryFile.readSummaryCacheFile(repository.repositoryId);
             table = table + `\t<tr>\n`;
             table = table + `\t\t<td>\n`;
@@ -16045,7 +16045,7 @@ let markdownTemplate = function () {
         let lastUpdate = getDate();
         let tableComponent = await createSummaryPageTableComponent(fileName, response, insightsRepository);
         let repositoryUrl = `https://github.com/${response[0].ownerLogin}/${insightsRepository}`;
-        let svgBadge = `[![Image of ${repositoryUrl}](${repositoryUrl}/blob/master/svg/profile/badge.svg)](${repositoryUrl})`;
+        let svgBadge = `[![Image of ${repositoryUrl}](${repositoryUrl}/blob/${BRANCH}/svg/profile/badge.svg)](${repositoryUrl})`;
         let markdown =  `## [🚀 ${actionName}](${actionUrl})\n`;
         markdown = markdown + `**${actionName}** is an opensource project that powered entirely by  \`GitHub Actions\` to fetch and store insights of repositories.\n`;
         markdown = markdown + `It uses \`GitHub API\` to fetch the insight data of your repositories and commits changes into a separate repository.\n\n`
@@ -16099,15 +16099,15 @@ let markdownTemplate = function () {
     }
     let repositoryPage = async function (ACTION_NAME, ACTION_URL, AUTHOR_NAME, AUTHOR_URL, views, file, response, request) {
         let insightsRepositoryUrl = `https://github.com/${response.ownerLogin}/${request.insightsRepository}`;
-        let readmeUrl = `${insightsRepositoryUrl}/blob/master/readme/${response.repositoryId}`;
+        let readmeUrl = `${insightsRepositoryUrl}/blob/${BRANCH}/readme/${response.repositoryId}`;
         let repositoryName = `[${response.repositoryName}](https://github.com/${response.ownerLogin}/${response.repositoryName})`;
-        let chart = `![Image of ${request.insightsRepository}](${insightsRepositoryUrl}/blob/master/graph/${response.repositoryId}/large/${file.toLowerCase()}.png)`;
-        let svgBadge = `[![Image of ${request.insightsRepository}](${insightsRepositoryUrl}/blob/master/svg/${response.repositoryId}/badge.svg)](${insightsRepositoryUrl}/blob/master/readme/${response.repositoryId}/week.md)`;
+        let chart = `![Image of ${request.insightsRepository}](${insightsRepositoryUrl}/blob/${BRANCH}/graph/${response.repositoryId}/large/${file.toLowerCase()}.png)`;
+        let svgBadge = `[![Image of ${request.insightsRepository}](${insightsRepositoryUrl}/blob/${BRANCH}/svg/${response.repositoryId}/badge.svg)](${insightsRepositoryUrl}/blob/${BRANCH}/readme/${response.repositoryId}/week.md)`;
         let chartBadge;
         if(request.advancedMode) {
-            chartBadge = `# ${response.repositoryName} [<img alt="Image of ${request.insightsRepository}" src="${insightsRepositoryUrl}/blob/master/graph/${response.repositoryId}/small/week.png" height="20">](${insightsRepositoryUrl}/blob/master/readme/${response.repositoryId}/week.md)`;
+            chartBadge = `# ${response.repositoryName} [<img alt="Image of ${request.insightsRepository}" src="${insightsRepositoryUrl}/blob/${BRANCH}/graph/${response.repositoryId}/small/week.png" height="20">](${insightsRepositoryUrl}/blob/${BRANCH}/readme/${response.repositoryId}/week.md)`;
         } else {
-            chartBadge = `# ${response.repositoryName} [<img alt="Image of ${request.insightsRepository}" src="${insightsRepositoryUrl}/blob/master/graph/${response.repositoryId}/small/year.png" height="20">](${insightsRepositoryUrl}/blob/master/readme/${response.repositoryId}/year.md)`;
+            chartBadge = `# ${response.repositoryName} [<img alt="Image of ${request.insightsRepository}" src="${insightsRepositoryUrl}/blob/${BRANCH}/graph/${response.repositoryId}/small/year.png" height="20">](${insightsRepositoryUrl}/blob/${BRANCH}/readme/${response.repositoryId}/year.md)`;
         }
         let markdown = `## [🔙 ${request.insightsRepository}](${insightsRepositoryUrl})\n`;
         markdown = markdown + menuComponent(request, readmeUrl);

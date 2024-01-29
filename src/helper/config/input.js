@@ -9,6 +9,7 @@ let input = (function () {
     const INSIGHT_REPOSITORY = process.env.GITHUB_REPOSITORY;
     const AUTH_KEY = process.env.INSIGHTS_TOKEN;
     const USER_AGENT = process.env.USER_AGENT;
+    
     let getUsernameAndRepository = function () {
         return INSIGHT_REPOSITORY.split("/");
     }
