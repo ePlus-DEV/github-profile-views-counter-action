@@ -17363,8 +17363,8 @@ module.exports = svgFile;
 const core = __nccwpck_require__(2186);
 const git = __nccwpck_require__(1193);
 let commitGit = function () {
-    let INSIGHT_BOT_USERNAME = 'github-actions[bot]';
-    let INSIGHT_BOT_EMAIL = '41898282+github-actions[bot]@users.noreply.github.com';
+    let INSIGHT_BOT_USERNAME = process.env.INSIGHT_BOT_USERNAME || 'eplus-bot';
+    let INSIGHT_BOT_EMAIL = process.env.INSIGHT_BOT_EMAIL || 'bot@eplus.dev';
     let commit = async function (message) {
         core.info(`Git Commit ${message}`)
         try {
@@ -17665,7 +17665,7 @@ const requestCommits = __nccwpck_require__(200);
 const RequestModel = __nccwpck_require__(2480);
 let verifyCommits = (function () {
     const URL = '/commits?path=cache';
-    const USERNAME = 'github-actions[bot]';
+    const USERNAME = process.env.INSIGHT_BOT_USERNAME || 'eplus-bot';
     let verify = async function (header, username, repository) {
         let request = new RequestModel(URL, username, repository);
         let responseCommits = await requestCommits.requestResponseCommits(header, request);
