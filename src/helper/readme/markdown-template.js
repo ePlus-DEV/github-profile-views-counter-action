@@ -1,9 +1,9 @@
 const recordSummaryFile = require('../../helper/cache/summary-cache');
 let markdownTemplate = function () {
     const ACTION_NAME = 'GitHub Profile Views Counter';
-    const ACTION_URL = 'https://github.com/ePlus-DEV/github-profile-views-counter';
-    const AUTHOR_NAME = 'ePlus-DEV';
-    const AUTHOR_URL = 'https://github.com/ePlus-DEV';
+    const ACTION_URL = 'https://github.com/hoangsvit/github-profile-views-counter';
+    const AUTHOR_NAME = 'hoangsvit';
+    const AUTHOR_URL = 'https://github.com/hoangsvit';
     const BRANCH_NAME = process.env.BRANCH_NAME || 'master';
 
     let getDate = function () {
@@ -75,11 +75,11 @@ let markdownTemplate = function () {
         table = table + `</table>\n\n`;
         return table;
     }
-    let summaryPage = async function (fileName, actionName, actionUrl, authorName, authorUrl, branchName, response, insightsRepository) {
+    let summaryPage = async function (fileName, actionName, actionUrl, authorName, authorUrl, BRANCH_NAME, response, insightsRepository) {
         let lastUpdate = getDate();
-        let tableComponent = await createSummaryPageTableComponent(fileName, response, insightsRepository, branchName);
+        let tableComponent = await createSummaryPageTableComponent(fileName, response, insightsRepository);
         let repositoryUrl = `https://github.com/${response[0].ownerLogin}/${insightsRepository}`;
-        let svgBadge = `[![Image of ${repositoryUrl}](${repositoryUrl}/blob/${branchName}/svg/profile/badge.svg)](${repositoryUrl})`;
+        let svgBadge = `[![Image of ${repositoryUrl}](${repositoryUrl}/blob/${BRANCH_NAME}/svg/profile/badge.svg)](${repositoryUrl})`;
         let markdown =  `## [🚀 ${actionName}](${actionUrl})\n`;
         markdown = markdown + `**${actionName}** is an opensource project that powered entirely by  \`GitHub Actions\` to fetch and store insights of repositories.\n`;
         markdown = markdown + `It uses \`GitHub API\` to fetch the insight data of your repositories and commits changes into a separate repository.\n\n`
