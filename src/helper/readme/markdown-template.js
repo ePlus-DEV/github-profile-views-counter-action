@@ -32,7 +32,9 @@ let markdownTemplate = function () {
         markdown = markdown + `- Data in the \`./cache\` directory: [Open Database License](https://opendatacommons.org/licenses/odbl/1-0/)`;
         return markdown;
     }
-    let createSummaryPageTableComponent = async function (fileName, response, insightsRepository, branchName) {
+    let createSummaryPageTableComponent = async function (fileName, response, insightsRepository) {
+        const branchName = process.env.BRANCH_NAME || 'master';
+        
         let table = `<table>\n`;
         table = table + `\t<tr>\n`;
         table = table + `\t\t<th>\n`;
