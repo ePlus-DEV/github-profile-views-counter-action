@@ -1,7 +1,7 @@
 const core = require('@actions/core');
 const git = require('../../core/git');
 let pushGit = function () {
-    const BRANCH = 'master';
+    const BRANCH = process.env.GITHUB_BRANCH || 'master';
     let push = async function () {
         core.info(`Git Push`);
         try {

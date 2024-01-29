@@ -20,7 +20,7 @@ let svgFile = (function () {
     </g>
 </svg>`;
     let create = async function (views) {
-        return template.replace('{views}', views);
+        return template.replace('{views}', views.toLocaleString());
     }
     return {
         create: create
