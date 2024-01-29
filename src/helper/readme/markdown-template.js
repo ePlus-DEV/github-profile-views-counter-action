@@ -1,9 +1,9 @@
 const recordSummaryFile = require('../../helper/cache/summary-cache');
 let markdownTemplate = function () {
     const ACTION_NAME = 'GitHub Profile Views Counter';
-    const ACTION_URL = 'https://github.com/gayanvoice/github-profile-views-counter';
-    const AUTHOR_NAME = 'gayanvoice';
-    const AUTHOR_URL = 'https://github.com/gayanvoice';
+    const ACTION_URL = 'https://github.com/ePlus-DEV/github-profile-views-counter';
+    const AUTHOR_NAME = 'ePlus-DEV';
+    const AUTHOR_URL = 'https://github.com/ePlus-DEV';
     const BRANCH_NAME = process.env.BRANCH_NAME || 'master';
 
     let getDate = function () {
@@ -32,7 +32,7 @@ let markdownTemplate = function () {
         markdown = markdown + `- Data in the \`./cache\` directory: [Open Database License](https://opendatacommons.org/licenses/odbl/1-0/)`;
         return markdown;
     }
-    let createSummaryPageTableComponent = async function (fileName, response, insightsRepository) {
+    let createSummaryPageTableComponent = async function (fileName, response, insightsRepository, branchName) {
         let table = `<table>\n`;
         table = table + `\t<tr>\n`;
         table = table + `\t\t<th>\n`;
@@ -48,10 +48,10 @@ let markdownTemplate = function () {
         table = table + `\t\t\tViews\n`;
         table = table + `\t\t</th>\n`;
         table = table + `\t</tr>\n`;
-        for (const repository of response) {
+        for (const repository of response) {         
             let repositoryUrl = `https://github.com/${repository.ownerLogin}/${insightsRepository}`;
-            let readmeUrl = `${repositoryUrl}/tree/${BRANCH_NAME}/readme`
-            let graphUrl = `${repositoryUrl}/raw/${BRANCH_NAME}/graph`
+            let readmeUrl = `${repositoryUrl}/tree/${branchName}/readme`
+            let graphUrl = `${repositoryUrl}/raw/${branchName}/graph`
             let summaryCache = await recordSummaryFile.readSummaryCacheFile(repository.repositoryId);
             table = table + `\t<tr>\n`;
             table = table + `\t\t<td>\n`;
@@ -73,11 +73,11 @@ let markdownTemplate = function () {
         table = table + `</table>\n\n`;
         return table;
     }
-    let summaryPage = async function (fileName, actionName, actionUrl, authorName, authorUrl, response, insightsRepository) {
+    let summaryPage = async function (fileName, actionName, actionUrl, authorName, authorUrl, branchName, response, insightsRepository) {
         let lastUpdate = getDate();
-        let tableComponent = await createSummaryPageTableComponent(fileName, response, insightsRepository);
+        let tableComponent = await createSummaryPageTableComponent(fileName, response, insightsRepository, branchName);
         let repositoryUrl = `https://github.com/${response[0].ownerLogin}/${insightsRepository}`;
-        let svgBadge = `[![Image of ${repositoryUrl}](${repositoryUrl}/blob/${BRANCH_NAME}/svg/profile/badge.svg)](${repositoryUrl})`;
+        let svgBadge = `[![Image of ${repositoryUrl}](${repositoryUrl}/blob/${branchName}/svg/profile/badge.svg)](${repositoryUrl})`;
         let markdown =  `## [🚀 ${actionName}](${actionUrl})\n`;
         markdown = markdown + `**${actionName}** is an opensource project that powered entirely by  \`GitHub Actions\` to fetch and store insights of repositories.\n`;
         markdown = markdown + `It uses \`GitHub API\` to fetch the insight data of your repositories and commits changes into a separate repository.\n\n`
@@ -129,17 +129,17 @@ let markdownTemplate = function () {
         table = table + `</table>\n\n`;
         return table;
     }
-    let repositoryPage = async function (ACTION_NAME, ACTION_URL, AUTHOR_NAME, AUTHOR_URL, BRANCH_NAME, views, file, response, request) {
+    let repositoryPage = async function (ACTION_NAME, ACTION_URL, AUTHOR_NAME, AUTHOR_URL, branchName, views, file, response, request) {
         let insightsRepositoryUrl = `https://github.com/${response.ownerLogin}/${request.insightsRepository}`;
-        let readmeUrl = `${insightsRepositoryUrl}/blob/${BRANCH_NAME}/readme/${response.repositoryId}`;
+        let readmeUrl = `${insightsRepositoryUrl}/blob/${branchName}/readme/${response.repositoryId}`;
         let repositoryName = `[${response.repositoryName}](https://github.com/${response.ownerLogin}/${response.repositoryName})`;
-        let chart = `![Image of ${request.insightsRepository}](${insightsRepositoryUrl}/blob/${BRANCH_NAME}/graph/${response.repositoryId}/large/${file.toLowerCase()}.png)`;
-        let svgBadge = `[![Image of ${request.insightsRepository}](${insightsRepositoryUrl}/blob/${BRANCH_NAME}/svg/${response.repositoryId}/badge.svg)](${insightsRepositoryUrl}/blob/${BRANCH_NAME}/readme/${response.repositoryId}/week.md)`;
+        let chart = `![Image of ${request.insightsRepository}](${insightsRepositoryUrl}/blob/${branchName}/graph/${response.repositoryId}/large/${file.toLowerCase()}.png)`;
+        let svgBadge = `[![Image of ${request.insightsRepository}](${insightsRepositoryUrl}/blob/${branchName}/svg/${response.repositoryId}/badge.svg)](${insightsRepositoryUrl}/blob/${branchName}/readme/${response.repositoryId}/week.md)`;
         let chartBadge;
         if(request.advancedMode) {
-            chartBadge = `# ${response.repositoryName} [<img alt="Image of ${request.insightsRepository}" src="${insightsRepositoryUrl}/blob/${BRANCH_NAME}/graph/${response.repositoryId}/small/week.png" height="20">](${insightsRepositoryUrl}/blob/${BRANCH_NAME}/readme/${response.repositoryId}/week.md)`;
+            chartBadge = `# ${response.repositoryName} [<img alt="Image of ${request.insightsRepository}" src="${insightsRepositoryUrl}/blob/${branchName}/graph/${response.repositoryId}/small/week.png" height="20">](${insightsRepositoryUrl}/blob/${branchName}/readme/${response.repositoryId}/week.md)`;
         } else {
-            chartBadge = `# ${response.repositoryName} [<img alt="Image of ${request.insightsRepository}" src="${insightsRepositoryUrl}/blob/${BRANCH_NAME}/graph/${response.repositoryId}/small/year.png" height="20">](${insightsRepositoryUrl}/blob/${BRANCH_NAME}/readme/${response.repositoryId}/year.md)`;
+            chartBadge = `# ${response.repositoryName} [<img alt="Image of ${request.insightsRepository}" src="${insightsRepositoryUrl}/blob/${branchName}/graph/${response.repositoryId}/small/year.png" height="20">](${insightsRepositoryUrl}/blob/${branchName}/readme/${response.repositoryId}/year.md)`;
         }
         let markdown = `## [🔙 ${request.insightsRepository}](${insightsRepositoryUrl})\n`;
         markdown = markdown + menuComponent(request, readmeUrl);
