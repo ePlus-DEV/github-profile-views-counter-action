@@ -17695,9 +17695,9 @@ const recordSummaryFile = __nccwpck_require__(7140);
 
 let markdownTemplate = function () {
     const ACTION_NAME = 'GitHub Profile Views Counter';
-    const ACTION_URL = 'https://github.com/gayanvoice/github-profile-views-counter';
-    const AUTHOR_NAME = 'gayanvoice';
-    const AUTHOR_URL = 'https://github.com/gayanvoice';
+    const ACTION_URL = 'https://github.com/ePlus-DEV/github-profile-views-counter-template';
+    const AUTHOR_NAME = 'ePlus-DEV';
+    const AUTHOR_URL = 'https://github.com/ePlus-DEV';
 
     let getDate = function () {
         let date = new Date();
@@ -17785,7 +17785,7 @@ let markdownTemplate = function () {
         let markdown =  `## [🚀 ${actionName}](${actionUrl})\n`;
         markdown += `**${actionName}** is an opensource project that powered entirely by  \`GitHub Actions\` to fetch and store insights of repositories.\n`;
         markdown += `It uses \`GitHub API\` to fetch the insight data of your repositories and commits changes into a separate repository.\n\n`
-        markdown += `The project created and maintained by [gayanvoice](https://github.com/gayanvoice). Don't forget to follow him on [GitHub](https://github.com/gayanvoice), [Twitter](https://twitter.com/gayanvoice), and [Medium](https://gayanvoice.medium.com/).\n\n`;
+        markdown += `The project created and maintained by [ePlus-DEV](https://github.com/ePlus-DEV). Don't forget to follow him on [GitHub](https://github.com/ePlus-DEV), [Twitter](https://twitter.com/david_nguyen94), and [website](https://eplus.dev/).\n\n`;
         markdown += tableComponent;
         markdown += `<small><i>Last updated on ${lastUpdate}</i></small>\n\n`;
         markdown +=   `## ✂️Copy and 📋 Paste\n`;
@@ -18056,7 +18056,7 @@ let svgFile = (function () {
     </g>
 </svg>`;
     let create = async function (views) {
-        return template.replace('{views}', views);
+        return template.replace('{views}', views.toLocaleString());
     }
     return {
         create: create
